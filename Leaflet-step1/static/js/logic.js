@@ -1,14 +1,13 @@
 // Store our API endpoint inside queryUrl
-var data;
-var magnitude;
+//var data;
+//var magnitude;
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
 // Perform a GET request to the query URL
 d3.json(queryUrl).then(function (data) {
     // Once we get a response, send the data.features object to the createFeatures function
-    //createFeatures(data.features);
-    magnitude = data.features[i].properties.mag;
-    createCircles(data.features);
+    createFeatures(data.features);
+   // createCircles(data.features);
 });
 
 //Create a function 
