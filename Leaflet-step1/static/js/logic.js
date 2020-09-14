@@ -1,17 +1,15 @@
-// Store our API endpoint inside queryUrl
-//var data;
-//var magnitude;
+//Store our API endpoint inside queryUrl
+
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
 // Perform a GET request to the query URL
 d3.json(queryUrl).then(function (data) {
     // Once we get a response, send the data.features object to the createFeatures function
     createFeatures(data.features);
-    // createCircles(data.features);
 });
 
- //Create a function to colour the circles of the earthquakes based on their magnitude:
- function getColor(d) {
+//Create a function to colour the circles of the earthquakes based on their magnitude:
+function getColor(d) {
     return d > 5 ? '#d73027' :
         d > 4 ? '#ff7f00' :
             d > 3 ? '#fc8d59' :
@@ -19,6 +17,7 @@ d3.json(queryUrl).then(function (data) {
                     d > 1 ? '#d9ef8b' :
                         '#91cf60';
 }
+
 
 function createFeatures(earthquakeData) {
 
@@ -45,8 +44,7 @@ function createFeatures(earthquakeData) {
             });
         },
         onEachFeature: onEachFeature,
-    });
-
+    })
 
     // Sending our earthquakes layer to the createMap function
     createMap(earthquakes);
@@ -91,27 +89,6 @@ function createMap(earthquakes) {
         layers: [streetmap, earthquakes]
     });
 
-    //Add the legend to the map:
-    //Create a legend:
-    var legend = L.control({ position: 'bottomright' });
-
-    legend.onAdd = function (map) {
-
-        var div = L.DomUtil.create('div', 'info legend'),
-            grades = [0, 1, 2, 3, 4, 5],
-            labels = [];
-
-        // loop through our density intervals and generate a label with a colored square for each interval
-        for (var i = 0; i < grades.length; i++) {
-            div.innerHTML +=
-                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-        }
-
-        return div;
-    };
-    legend.addTo(myMap);
-
     // Create a layer control
     // Pass in our baseMaps and overlayMaps
     // Add the layer control to the map
@@ -119,6 +96,30 @@ function createMap(earthquakes) {
         collapsed: false
     }).addTo(myMap);
 }
+
+
+// //Add the legend to the map:
+//     //Create a legend:
+//     var legend = L.control({ position: 'bottomright' });
+
+//     legend.onAdd = function (map) {
+
+//         var div = L.DomUtil.create('div', 'info legend'),
+//             grades = [0, 1, 2, 3, 4, 5],
+//             labels = [];
+
+//         // loop through our density intervals and generate a label with a colored square for each interval
+//         for (var i = 0; i < grades.length; i++) {
+//             div.innerHTML +=
+//                 labels.push(
+//                     '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+//                     grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+'));
+//         }
+
+//         div.innerHTML = labels.join('<br>');
+//     };
+//     legend.addTo(myMap);
+
 
 
 
