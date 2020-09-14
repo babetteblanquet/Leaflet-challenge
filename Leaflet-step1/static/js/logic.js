@@ -7,41 +7,18 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 d3.json(queryUrl).then(function (data) {
     // Once we get a response, send the data.features object to the createFeatures function
     createFeatures(data.features);
-   // createCircles(data.features);
+    // createCircles(data.features);
 });
 
-//Create a function 
-// function createCircles(earthquakeData) {
-// //Create a function to colour the circles of the earthquakes based on their magnitude:
-//     function getColor(d) {
-//         return d > 5 ? '#800026' :
-//             d > 4 ? '#BD0026' :
-//             d > 3 ? '#E31A1C' :
-//             d > 2 ? '#FC4E2A' :
-//             d > 1 ? '#FD8D3C' :
-//             d > 0 ? '#FEB24C' :
-//             '#FFEDA0';
-// }
-
-//     var geojsonMarkerOptions = {
-//     // Adjust radius
-//     radius: magnitude * 100,
-//     fillColor: getColor(magnitude),
-//     color: "black",
-//     weight: 1,
-//     opacity: 1,
-//     fillOpacity: 0.75}
-
-//     var earthquakes = L.geoJSON(earthquakeData, {
-//         pointToLayer: function (_feature, latlng) {
-//             return L.circleMarker(latlng, geojsonMarkerOptions);
-//         }
-//     })
-
-//     //Sending our earthquakes circles to the createMap function
-//     createMap(earthquakes);
-
-// }
+ //Create a function to colour the circles of the earthquakes based on their magnitude:
+ function getColor(d) {
+    return d > 5 ? '#d73027' :
+        d > 4 ? '#ff7f00' :
+            d > 3 ? '#fc8d59' :
+                d > 2 ? '#fee08b' :
+                    d > 1 ? '#d9ef8b' :
+                        '#91cf60';
+}
 
 function createFeatures(earthquakeData) {
 
@@ -54,31 +31,22 @@ function createFeatures(earthquakeData) {
             "</p>");
     }
 
-    //Create a function to colour the circles of the earthquakes based on their magnitude:
-    function getColor(d) {
-        return d > 5 ? '#d73027' :
-            d > 4 ? '#ff7f00' :
-            d > 3 ?'#fc8d59' :
-            d > 2 ? '#fee08b' :
-            d > 1 ? '#d9ef8b' :
-             '#91cf60' ;
-    }
-
     // Create a GeoJSON layer containing the features array on the earthquakeData object
     // Run the onEachFeature function once for each piece of data in the array
-     var earthquakes = L.geoJSON(earthquakeData, {
-        pointToLayer: function(feature, latlng) {
-          return new L.CircleMarker(latlng, {
-            radius: feature.properties.mag * 10,
-            color: 'black',
-            weight: 0.5,
-            fillColor: getColor(feature.properties.mag),
-            opacity: 1,
-            fillOpacity: 0.75
-          });
+    var earthquakes = L.geoJSON(earthquakeData, {
+        pointToLayer: function (feature, latlng) {
+            return new L.CircleMarker(latlng, {
+                radius: feature.properties.mag * 10,
+                color: 'black',
+                weight: 0.5,
+                fillColor: getColor(feature.properties.mag),
+                opacity: 1,
+                fillOpacity: 0.75
+            });
         },
         onEachFeature: onEachFeature,
-     });
+    });
+
 
     // Sending our earthquakes layer to the createMap function
     createMap(earthquakes);
@@ -123,6 +91,27 @@ function createMap(earthquakes) {
         layers: [streetmap, earthquakes]
     });
 
+    //Add the legend to the map:
+    //Create a legend:
+    var legend = L.control({ position: 'bottomright' });
+
+    legend.onAdd = function (map) {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+            grades = [0, 1, 2, 3, 4, 5],
+            labels = [];
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+        }
+
+        return div;
+    };
+    legend.addTo(myMap);
+
     // Create a layer control
     // Pass in our baseMaps and overlayMaps
     // Add the layer control to the map
@@ -130,3 +119,6 @@ function createMap(earthquakes) {
         collapsed: false
     }).addTo(myMap);
 }
+
+
+
