@@ -54,13 +54,27 @@ function createFeatures(earthquakeData) {
             "</p>");
     }
 
+    //Create a function to colour the circles of the earthquakes based on their magnitude:
+    function getColor(d) {
+        return d > 5 ? '#d73027' :
+            d > 4 ? '#ff7f00' :
+            d > 3 ?'#fc8d59' :
+            d > 2 ? '#fee08b' :
+            d > 1 ? '#d9ef8b' :
+             '#91cf60' ;
+    }
+
     // Create a GeoJSON layer containing the features array on the earthquakeData object
     // Run the onEachFeature function once for each piece of data in the array
      var earthquakes = L.geoJSON(earthquakeData, {
         pointToLayer: function(feature, latlng) {
           return new L.CircleMarker(latlng, {
-            radius: 5,
-            color: '#FF0000'
+            radius: feature.properties.mag * 10,
+            color: 'black',
+            weight: 0.5,
+            fillColor: getColor(feature.properties.mag),
+            opacity: 1,
+            fillOpacity: 0.75
           });
         },
         onEachFeature: onEachFeature,
