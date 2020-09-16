@@ -95,30 +95,35 @@ function createMap(earthquakes) {
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
     }).addTo(myMap);
+
+    //Add the legend to the map:
+    //Create a legend:
+    // Create a legend to display information about our map
+    var legend = L.control({ position: 'bottomright' });
+
+    legend.onAdd = function () {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+            grades = [0, 1, 2, 3, 4, 5],
+            labels = [];
+
+        div.innerHTML += '<br>'
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+                '<i style="background:' + getColor(grades[i] + 1) + '">&nbsp&nbsp&nbsp&nbsp</i> ' +
+                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+        }
+
+        return div;
+    };
+
+    legend.addTo(myMap);
 }
 
 
-// //Add the legend to the map:
-//     //Create a legend:
-//     var legend = L.control({ position: 'bottomright' });
 
-//     legend.onAdd = function (map) {
-
-//         var div = L.DomUtil.create('div', 'info legend'),
-//             grades = [0, 1, 2, 3, 4, 5],
-//             labels = [];
-
-//         // loop through our density intervals and generate a label with a colored square for each interval
-//         for (var i = 0; i < grades.length; i++) {
-//             div.innerHTML +=
-//                 labels.push(
-//                     '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-//                     grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+'));
-//         }
-
-//         div.innerHTML = labels.join('<br>');
-//     };
-//     legend.addTo(myMap);
 
 
 
