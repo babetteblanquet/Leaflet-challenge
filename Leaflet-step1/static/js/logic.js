@@ -97,8 +97,7 @@ function createMap(earthquakes) {
     }).addTo(myMap);
 
     //Add the legend to the map:
-    //Create a legend:
-    // Create a legend to display information about our map
+    
     var legend = L.control({ position: 'bottomright' });
 
     legend.onAdd = function () {
@@ -107,10 +106,12 @@ function createMap(earthquakes) {
             grades = [0, 1, 2, 3, 4, 5],
             labels = [];
 
+        div.innerHTML += 'Earthquake<br>Magnitude<br><hr>'
+
         // loop through our density intervals and generate a label with a colored square for each interval
         for (var i = 0; i < grades.length; i++) {
             div.innerHTML +=
-                '<i class="legend" style="background:' + getColor(grades[i] + 1) + '">&nbsp&nbsp&nbsp&nbsp</i> ' +
+                '<i style="background:' + getColor(grades[i] + 1) + '">&nbsp&nbsp&nbsp&nbsp</i> ' +
                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
         }
 
