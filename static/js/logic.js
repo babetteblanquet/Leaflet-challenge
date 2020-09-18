@@ -18,7 +18,7 @@ function getColor(d) {
                         '#91cf60';
 }
 
-
+//Create a function to render the Earthquakes data
 function createFeatures(earthquakeData) {
 
     // Define a function we want to run once for each feature in the features array
@@ -50,6 +50,7 @@ function createFeatures(earthquakeData) {
     createMap(earthquakes);
 }
 
+//Create a function to create the layers and legend of our map
 function createMap(earthquakes) {
 
     // Define streetmap and darkmap layers
@@ -101,14 +102,15 @@ function createMap(earthquakes) {
     var legend = L.control({ position: 'bottomright' });
 
     legend.onAdd = function () {
-
+        //Define the grades of the legend
         var div = L.DomUtil.create('div', 'info legend'),
             grades = [0, 1, 2, 3, 4, 5],
             labels = [];
 
+        //Add a title to the legend
         div.innerHTML += 'Earthquake<br>Magnitude<br><hr>'
 
-        // loop through our density intervals and generate a label with a colored square for each interval
+        //Loop through our density intervals and generate a label with a coloured square for each interval
         for (var i = 0; i < grades.length; i++) {
             div.innerHTML +=
                 '<i style="background:' + getColor(grades[i] + 1) + '">&nbsp&nbsp&nbsp&nbsp</i> ' +
@@ -117,7 +119,7 @@ function createMap(earthquakes) {
 
         return div;
     };
-
+    //Add legend to the map
     legend.addTo(myMap);
 }
 
