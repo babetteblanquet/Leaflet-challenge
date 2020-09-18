@@ -3,9 +3,9 @@
 In this project we designed an interactive map using Javascript, Leaflet, HTML/CSS.
 
 This maps shows the earthquakes that happened over the last seven days and their magnitude. 
-You can visualise it here:
+You can visualise it here:https://babetteblanquet.github.io/Leaflet_Interactive_map/
 
-When you click on each circle, you can get more details about:
+When you click on each circle, you can get more information about:
   - the location
   - the magnitude
   - the date
